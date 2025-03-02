@@ -11,10 +11,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Налаштування HTTPS
-const options = {
-  key: fs.readFileSync("key.pem"),
-  cert: fs.readFileSync("cert.pem"),
-};
+// const options = {
+//   key: fs.readFileSync("key.pem"),
+//   cert: fs.readFileSync("cert.pem"),
+// };
 
 http.createServer(app).listen(port, () => {
   console.log(`HTTP сервер працює на порту ${port}`);

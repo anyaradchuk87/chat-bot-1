@@ -10,20 +10,24 @@ module.exports = async (req, res) => {
       });
 
       req.on("end", () => {
-        const update = JSON.parse(body);
+        if (body) {
+          const update = JSON.parse(body);
 
-        if (update.message) {
-          console.log("Отримано повідомлення:", update.message);
-          bot.processUpdate(update);
+          if (update.message) {
+            console.log("📩 Отримано повідомлення:", update.message);
+            bot.processUpdate(update);
+          }
         }
 
-        res.status(200).send("Бот отримав оновлення!");
+        res.status(200).send("✅ Бот отримав оновлення!");
       });
+    } else if (req.method === "GET") {
+      res.status(200).send("👋 Привіт! Це сервер твого Telegram бота 🚀");
     } else {
-      res.status(405).send("Метод не дозволений");
+      res.status(405).send("❌ Метод не дозволений");
     }
   } catch (error) {
-    console.error("Помилка:", error);
+    console.error("❌ Помилка:", error);
     res.status(500).send("Щось пішло не так...");
   }
 };

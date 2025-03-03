@@ -1,4 +1,4 @@
-const { bot, startBot } = require("./bot");
+const bot = require("./bot");
 
 module.exports = async (req, res) => {
   try {
@@ -14,5 +14,3 @@ module.exports = async (req, res) => {
     res.status(500).send("Щось пішло не так...");
   }
 };
-
-startBot();

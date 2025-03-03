@@ -1,0 +1,9 @@
+[build]
+  command = "npm install && npm start"
+  publish = "public"
+
+[[redirects]]
+  from = "/bot*"
+  to = "/.netlify/functions/bot"
+  status = 200
+  force = true

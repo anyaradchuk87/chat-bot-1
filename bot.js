@@ -6,15 +6,12 @@ const fs = require("fs");
 require("dotenv").config(); // Завантажуємо змінні середовища з .env
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const bot = new TelegramBot(TOKEN, { polling: true });
+const URL = process.env.SERVER_URL;
+const bot = new TelegramBot(TOKEN, { webHook: true });
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Налаштування HTTPS
-// const options = {
-//   key: fs.readFileSync("key.pem"),
-//   cert: fs.readFileSync("cert.pem"),
-// };
+bot.setWebHook(`${URL}/bot${TOKEN}`);
 
 http.createServer(app).listen(port, () => {
   console.log(`HTTP сервер працює на порту ${port}`);
@@ -25,6 +22,12 @@ app.get("/", (req, res) => {
   res.send("<h1>Привіт! Це твоя гра 🚀</h1><p>Додай сюди HTML+JS код гри!</p>");
 });
 app.use(express.static("public"));
+
+// Обробка оновлень від Telegram
+app.post(`/bot${TOKEN}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
 
 // Обробка команди /start
 bot.onText(/\/start/, (msg) => {
@@ -39,7 +42,9 @@ bot.onText(/\/start/, (msg) => {
         [
           {
             text: "Запустити гру",
-            web_app: { url: `extraordinary-banoffee-f6a076.netlify.app` },
+            web_app: {
+              url: `https://extraordinary-banoffee-f6a076.netlify.app/`,
+            },
           },
         ],
       ],

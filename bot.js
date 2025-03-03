@@ -11,6 +11,13 @@ const bot = new TelegramBot(TOKEN, { webHook: true });
 const app = express();
 const port = process.env.PORT || 3000;
 
+if (!TOKEN) {
+  console.error(
+    "❌ TELEGRAM_BOT_TOKEN не знайдено! Перевірте змінні середовища."
+  );
+  process.exit(1);
+}
+
 bot.setWebHook(`${URL}/bot${TOKEN}`);
 
 http.createServer(app).listen(port, () => {

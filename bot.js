@@ -70,4 +70,4 @@ bot.on("callback_query", (query) => {
   bot.answerCallbackQuery(query.id); // Закриваємо запит, щоб уникнути помилок
 });
 
-console.log("Бот запущений!");
+console.log("Бот запущений нарешті!");

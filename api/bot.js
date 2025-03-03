@@ -78,15 +78,15 @@
 // });
 
 // Завантажуємо необхідні модулі
+// bot.js
 const TelegramBot = require("node-telegram-bot-api");
 const dotenv = require("dotenv");
 dotenv.config(); // Завантажуємо змінні середовища з .env файлу
 
-// Отримуємо значення токену з середовища
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const URL = process.env.SERVER_URL; // Сервер URL для Webhook
 
-// Перевіряємо наявність токену fdflb
+// Перевіряємо наявність токену
 if (!TOKEN) {
   console.error(
     "❌ TELEGRAM_BOT_TOKEN не знайдено! Перевірте змінні середовища."
@@ -96,7 +96,9 @@ if (!TOKEN) {
 
 // Створюємо екземпляр бота
 const bot = new TelegramBot(TOKEN, { webHook: true });
-bot.setWebHook(`${URL}/bot${TOKEN}`); // Налаштовуємо Webhook
+
+// Налаштовуємо Webhook
+bot.setWebHook(`${URL}/api/bot${TOKEN}`);
 
 // Обробляємо команди
 bot.onText(/\/start/, (msg) => {
@@ -111,7 +113,7 @@ bot.onText(/\/start/, (msg) => {
           {
             text: "Запустити гру",
             web_app: {
-              url: `${URL}`,
+              url: `${URL}/game`, // Приклад URL для гри
             },
           },
         ],
@@ -120,7 +122,7 @@ bot.onText(/\/start/, (msg) => {
   });
 });
 
-// Обробляємо натискання кнопок
+// Обробка натискання кнопок
 bot.on("callback_query", (query) => {
   const chatId = query.message.chat.id;
 
@@ -138,4 +140,4 @@ bot.on("callback_query", (query) => {
   bot.answerCallbackQuery(query.id); // Закриваємо запит
 });
 
-module.exports = bot; // Експортуємо бота для використання в index.js
+module.exports = bot; // Експортуємо бота
